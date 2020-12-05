@@ -29,17 +29,18 @@ jobs:
           sudo apt-get -y install tree > /dev/null
           printf "Contents of Mokk:\n" && tree ./mokk
           find ./gh-pages -mindepth 1 ! -regex '^./gh-pages/.git\(/.*\)?' -delete
-          touch ./gh-pages/.nojekyll
           cd ./mokk
           dokkoo build .
           cd ../
           cp -ar ./mokk/output/* ./gh-pages
           cp -ar ./mokk/assets ./gh-pages
+          touch -c ./gh-pages/.nojekyll
           printf "Built Mokk:\n" && tree ./gh-pages
     - name: Publish
       run: |
           cd ./gh-pages
           git config --global user.name 'Dokkoo'
           git config --global user.email 'MadeByEmil@users.noreply.github.com'
+          git add -A
           git diff --quiet && git diff --staged --quiet || git commit -am "Publish Mokk to GitHub Pages"
           git push
