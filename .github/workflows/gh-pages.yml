@@ -28,8 +28,7 @@ jobs:
       run: |
           sudo apt-get -y install tree > /dev/null
           printf "Contents of Mokk:\n" && tree ./mokk
-          shopt -s extglob
-          rm -rf ./gh-pages/!(.git|.|..)/
+          find ./gh-pages -mindepth 1 ! -regex '^./gh-pages/.git\(/.*\)?' -delete
           touch ./gh-pages/.nojekyll
           cd ./mokk
           dokkoo build .
