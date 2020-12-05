@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://MadeByEmil.github.io/mokk/assets/stylesheet.css" />
+</head>
+<body>
+<h1>The Macro Output Key Kit (Mokk) Standard</h1>
+<h2>Purpose</h2>
+<p>A Macro Output Key Kit, acronymed as Mokk, is a collection of files.
+These files contain human-readable data in the form of key-value pairs,
+which allows the creation of mass output from the values referenced by the keys
+in a kit, or collection of keys.</p>
+<h2>Data management</h2>
+<p>A Mokk file (which will be referred to as a File for the remainer of this document)
+utilizes text templating to access data in an object-oriented manner. Often,
+<code>.mokkf</code> files will contain ‘mustache-like’ tags:</p>
+<blockquote>
+<p><code>{{ page.year }}</code></p>
+</blockquote>
+<p>The first component is a ‘context’, which contains variables. These variables have names (keys)
+and their data (values). In this case, the templating tag will output the value of the <code>year</code>
+variable for the <code>page</code> context.</p>
+<p>There are three primary contexts which comprise the Mokk standard:</p>
+<ol>
+<li><code>{{ global }}</code></li>
+<li><code>{{ page }}</code></li>
+<li><code>{{ collections }}</code></li>
+</ol>
+<p>Additionally exist the <code>{{ layout }}</code> and <code>{{ snippet }}</code> contexts, but these are not accessible
+in most situations.</p>
+<h3><code>{{ global }}</code></h3>
+<p>This context is accessible across all Files in a Mokk, and is, as a result, called ‘the global context’.
+It is defined within the <code>_global.yml</code> file at the root of every Mokk, written in human-readable YAML 1.2.
+The only required variable within the global context is the <code>locale</code> variable, which defines how date &amp; time
+information is rendered. The locales are derived from the
+<a href="https://sources.debian.org/src/glibc/2.31-4/localedata/locales/">GNU C Library’s list of locales</a>.</p>
+<blockquote>
+<p><code>locale: &quot;fr_FR&quot;</code> would define Metropolitan French as the Mokk’s locale</p>
+</blockquote>
+<h3><code>{{ page }}</code></h3>
+<p>Mokk files have a context of their own. Each File can be thought of as a Page comprised of a Document and metadata.
+Following along with this abstraction, a Document can best be defined as whatever that is written by a person.
+In addition to metadata, such as a Page’s location or date-time information, a Document defines a Page.
+The most important component of a Document is its ‘frontmatter’, data which provides information pertaining to the File.
+Frontmatter is preceded and followed by three en dashes at the top of the File, with the contents within being
+accessible within the <code>{{ page.document }}</code> variable.</p>
+<p>One can consider a simple Page as follows:</p>
+<pre><code>---
+title: &quot;Hello, world!&quot;
+---
+<p>{{ page.document.frontmatter.title }}
+</code></pre></p>
+<p>Such a Page would be rendered as:</p>
+<blockquote>
+<p>“Hello, world!”</p>
+</blockquote>
+<h3><code>{{ collections }}</code></h3>
+<h2>Layouts</h2>
+<h2>Snippets</h2>
+</body>
+</html>
