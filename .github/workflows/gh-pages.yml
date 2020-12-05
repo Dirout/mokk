@@ -31,7 +31,9 @@ jobs:
           shopt -s extglob
           rm -rf ./gh-pages/!(.git|.|..)/
           touch ./gh-pages/.nojekyll
-          dokkoo build ./mokk
+          cd ./mokk
+          dokkoo build .
+          cd ../
           cp -ar ./mokk/output/* ./gh-pages
           cp -ar ./mokk/assets ./gh-pages
           printf "Built Mokk:\n" && tree ./gh-pages
