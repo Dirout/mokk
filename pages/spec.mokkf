@@ -1,0 +1,66 @@
+---
+title: The Macro Output Key Kit (Mokk) Standard
+layout: main
+permalink: "index.html"
+---
+
+# {{ page.document.frontmatter.title }}
+
+## Purpose
+A Macro Output Key Kit, acronymed as Mokk, is a collection of files.
+These files contain human-readable data in the form of key-value pairs,
+which allows the creation of mass output from the values referenced by the keys
+in a kit, or collection of keys.
+
+## Data management
+A Mokk file (which will be referred to as a File for the remainer of this document)
+utilizes text templating to access data in an object-oriented manner. Often,
+`.mokkf` files will contain 'mustache-like' tags:
+> `{{ "page.year" | prepend: "{{ " | append: " }}" }}`
+
+The first component is a 'context', which contains variables. These variables have names (keys)
+and their data (values). In this case, the templating tag will output the value of the `year`
+variable for the `page` context.
+
+
+There are three primary contexts which comprise the Mokk standard:
+1. `{{ "global" | prepend: "{{ " | append: " }}" }}`
+2. `{{ "page" | prepend: "{{ " | append: " }}" }}`
+3. `{{ "collections" | prepend: "{{ " | append: " }}" }}`
+
+Additionally exist the `{{ "layout" | prepend: "{{ " | append: " }}" }}` and `{{ "snippet" | prepend: "{{ " | append: " }}" }}` contexts, but these are not accessible
+in most situations.
+
+### `{{ "global" | prepend: "{{ " | append: " }}" }}`
+This context is accessible across all Files in a Mokk, and is, as a result, called 'the global context'.
+It is defined within the `_global.yml` file at the root of every Mokk, written in human-readable YAML 1.2.
+The only required variable within the global context is the `locale` variable, which defines how date & time
+information is rendered. The locales are derived from the
+[GNU C Library's list of locales](https://sources.debian.org/src/glibc/2.31-4/localedata/locales/).
+> `locale: "fr_FR"` would define Metropolitan French as the Mokk's locale
+
+### `{{ "page" | prepend: "{{ " | append: " }}" }}`
+Mokk files have a context of their own. Each File can be thought of as a Page comprised of a Document and metadata.
+Following along with this abstraction, a Document can best be defined as whatever that is written by a person.
+In addition to metadata, such as a Page's location or date-time information, a Document defines a Page.
+The most important component of a Document is its 'frontmatter', data which provides information pertaining to the File.
+Frontmatter is preceded and followed by three en dashes at the top of the File, with the contents within being
+accessible within the `{{ "page.document" | prepend: "{{ " | append: " }}" }}` variable.
+
+One can consider a simple Page as follows:
+```
+---
+title: "Hello, world!"
+---
+
+{{ "page.document.frontmatter.title" | prepend: "{{ " | append: " }}" }}
+```
+
+Such a Page would be rendered as:
+> "Hello, world!"
+
+### `{{ "collections" | prepend: "{{ " | append: " }}" }}`
+
+## Layouts
+
+## Snippets
