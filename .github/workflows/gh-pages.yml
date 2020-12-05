@@ -26,14 +26,15 @@ jobs:
           token: ${{ secrets.PAT }}
     - name: Build
       run: |
-          echo "Contents of Mokk:\n" && tree ./mokk
+          sudo apt-get -y install tree > /dev/null
+          printf "Contents of Mokk:\n" && tree ./mokk
           shopt -s extglob
           rm -rf ./gh-pages/!(.git)/
           touch ./gh-pages/.nojekyll
           dokkoo build ./mokk
           cp -ar ./mokk/output/* ./gh-pages
           cp -ar ./mokk/assets ./gh-pages
-          echo "Built Mokk:\n" && tree ./gh-pages
+          printf "Built Mokk:\n" && tree ./gh-pages
     - name: Publish
       run: |
           cd ./gh-pages
