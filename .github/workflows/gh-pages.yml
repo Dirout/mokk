@@ -34,7 +34,7 @@ jobs:
           cd ../
           cp -ar ./mokk/output/* ./gh-pages
           cp -ar ./mokk/assets ./gh-pages
-          touch -c ./gh-pages/.nojekyll
+          touch ./gh-pages/.nojekyll
           tee -a /gh-pages/.nojekyll > /dev/null <<EOT
 
           EOT
