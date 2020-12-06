@@ -35,7 +35,7 @@ jobs:
           cp -ar ./mokk/output/* ./gh-pages
           cp -ar ./mokk/assets ./gh-pages
           touch ./gh-pages/.nojekyll
-          tee -a /gh-pages/.nojekyll > /dev/null <<EOT
+          tee -a ./gh-pages/.nojekyll > /dev/null <<EOT
 
           EOT
           printf "\nBuilt Mokk:\n" && tree ./gh-pages
