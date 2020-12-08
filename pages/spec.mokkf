@@ -5,7 +5,7 @@ permalink: "index.html"
 ---
 
 # {{ page.document.frontmatter.title }}
-
+{% raw %}
 ## Purpose
 A Macro Output Key Kit, acronymed as Mokk, is a collection of files.
 These files contain human-readable data in the form of key-value pairs,
@@ -16,7 +16,7 @@ in a kit, or collection of keys.
 A Mokk file (which will be referred to as a File for the remainer of this document)
 utilizes text templating to access data in an object-oriented manner. Often,
 `.mokkf` files will contain 'mustache-like' tags:
-> `{{ "page.year" | prepend: "{{ " | append: " }}" }}`
+> `{{ page.year }}`
 
 The first component is a 'context', which contains variables. These variables have names (keys)
 and their data (values). In this case, the templating tag will output the value of the `year`
@@ -24,14 +24,14 @@ variable for the `page` context.
 
 
 There are three primary contexts which comprise the Mokk standard:
-1. `{{ "global" | prepend: "{{ " | append: " }}" }}`
-2. `{{ "page" | prepend: "{{ " | append: " }}" }}`
-3. `{{ "collections" | prepend: "{{ " | append: " }}" }}`
+1. `{{ global }}`
+2. `{{ page }}`
+3. `{{ collections }}`
 
-Additionally exist the `{{ "layout" | prepend: "{{ " | append: " }}" }}` and `{{ "snippet" | prepend: "{{ " | append: " }}" }}` contexts, but these are not accessible
+Additionally exist the `{{ layout }}` and `{{ snippet }}` contexts, but these are not accessible
 in most situations.
 
-### `{{ "global" | prepend: "{{ " | append: " }}" }}`
+### `{{ global }}`
 This context is accessible across all Files in a Mokk, and is, as a result, called 'the global context'.
 It is defined within the `_global.yml` file at the root of every Mokk, written in human-readable YAML 1.2.
 The only required variable within the global context is the `locale` variable, which defines how date & time
@@ -39,13 +39,13 @@ information is rendered. The locales are derived from the
 [GNU C Library's list of locales](https://sources.debian.org/src/glibc/2.31-4/localedata/locales/).
 > `locale: "fr_FR"` would define Metropolitan French as the Mokk's locale
 
-### `{{ "page" | prepend: "{{ " | append: " }}" }}`
+### `{{ page }}`
 Mokk files have a context of their own. Each File can be thought of as a Page comprised of a Document and metadata.
-Following along with this abstraction, a Document can best be defined as whatever that is written by a person.
-In addition to metadata, such as a Page's location or date-time information, a Document defines a Page.
+Following along with this abstraction, a Document can best be defined as whatever which has been written—the unrendered contents 
+of a File. In addition to metadata, such as a Page's location or date-time information, a Document defines a Page.
 The most important component of a Document is its 'frontmatter', data which provides information pertaining to the File.
-Frontmatter is preceded and followed by three en dashes at the top of the File, with the contents within being
-accessible within the `{{ "page.document" | prepend: "{{ " | append: " }}" }}` variable.
+Frontmatter is preceded and followed by three en dashes, each given a new line, at the top of the File, the contents being
+accessible from the `{{ page.document }}` variable.
 
 One can consider a simple Page as follows:
 ```
@@ -53,14 +53,54 @@ One can consider a simple Page as follows:
 title: "Hello, world!"
 ---
 
-{{ "page.document.frontmatter.title" | prepend: "{{ " | append: " }}" }}
+{{ page.document.frontmatter.title }}
 ```
 
 Such a Page would be rendered as:
 > "Hello, world!"
 
-### `{{ "collections" | prepend: "{{ " | append: " }}" }}`
+### `{{ collections }}`
 
+Collections are for the categorization of Files, allowing the incorporation of several Files into one. The 'collections' 
+context contains collections by name, which can be indexed:
+> `{{ collections["posts"] }}`
+
+A File can be assigned to a collection by specifying a `collection` key in its frontmatter:
+```
+---
+collection: posts
+---
+```
+
+The collection object is an iterable list, containing 'raw', or layout-less rendered copies of each File 
+within the collection the object represents. One notable use case would be for a blog, where posts can be assigned collections 
+and then presented on an index page which iterates through the collection.  
+
+```
+---
+title: Homepage for Blog
+permalink: index.html
+---
+{% for post in collections["posts"] %}
+# {{ post.document.frontmatter.title }}
+by {{ post.document.frontmatter.author }} \
+{{ post.document.content }}
+## END OF ARTICLE \
+{% endfor %}
+```
 ## Layouts
+To be written.
 
 ## Snippets
+To be written.
+
+## Languages
+### [YAML 1.2](https://yaml.org/spec/1.2/spec.html "The \"YAML Ain't Markup Language\", or YAML™,  specification")  
+Human readable data in Mokk Files is written in the YAML 1.2 data serialization language
+
+### [Markdown](https://spec.commonmark.org/current/ "The CommonMark specification of Markdown")  
+Document annotation in Mokk Files is written in the Markdown markup language
+
+### [Liquid](https://shopify.github.io/liquid/basics/introduction/ "The Liquid tutorial")  
+Tags, filters, and data placeholders in Mokk Files are written in the Liquid templating language
+{% endraw %}
