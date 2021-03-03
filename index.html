@@ -1,4 +1,4 @@
-<!doctype html><meta charset=utf-8><meta http-equiv=x-ua-compatible content="ie=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=preconnect href=https://fonts.gstatic.com><link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel=stylesheet><link rel=stylesheet href=https://MadeByEmil.github.io/mokk/assets/stylesheet.css><title>The Macro Output Key Kit (Mokk) Standard</title><h1>The Macro Output Key Kit (Mokk) Standard</h1><h2>Purpose</h2><p>A Macro Output Key Kit, acronymed as Mokk, is a collection of files.
+<!doctype html><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><link rel=preconnect href=https://fonts.gstatic.com><link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel=stylesheet><link rel=stylesheet href=https://Dirout.github.io/mokk/assets/stylesheet.css><title>The Macro Output Key Kit (Mokk) Standard</title><h1>{{ page.document.frontmatter.title }}</h1><p>{% raw %}<h2>Purpose</h2><p>A Macro Output Key Kit, acronymed as Mokk, is a collection of files.
 These files contain human-readable data in the form of key-value pairs,
 which allows the creation of mass output from the values referenced by the keys
 in a kit, or collection of keys.<h2>Data management</h2><p>A Mokk file (which will be referred to as a File for the remainer of this document)
@@ -18,7 +18,8 @@ Frontmatter is preceded and followed by three en dashes, each given a new line, 
 accessible from the <code>{{ page.document }}</code> variable.<p>One can consider a simple Page as follows:<blockquote><pre><code>---
 title: &quot;Hello, world!&quot;
 ---
-<p>{{ page.document.frontmatter.title }}
+
+{{ page.document.frontmatter.title }}
 </code></pre></blockquote><p>Such a Page would be rendered as:<blockquote><p>“Hello, world!”</blockquote><h3><code>{{ collections }}</code></h3><p>Collections are for the categorization of Files, allowing the incorporation of several Files into one. The ‘collections’
 context contains collections by name, which can be indexed:<blockquote><p><code>{{ collections[&quot;posts&quot;] }}</code></blockquote><p>A File can be assigned to a collection by specifying a <code>collection</code> key in its frontmatter:<blockquote><pre><code>---
 collection: posts
@@ -44,3 +45,4 @@ context.<p><code>snippets/example_snippet.html</code>:<blockquote><p><code>&lt;p
 &lt;p&gt;Bonjour, le monde!&lt;/p&gt;
 …
 </code></pre></blockquote><h2>Languages</h2><h3><a href=https://yaml.org/spec/1.2/spec.html title='The "YAML Ain&#39;t Markup Language", or YAML™,  specification'>YAML 1.2</a></h3><p>Human readable data in Mokk Files is written in the YAML 1.2 data serialization language<h3><a href=https://spec.commonmark.org/current/ title="The CommonMark specification of Markdown">Markdown</a></h3><p>Document annotation in Mokk Files is written in the Markdown markup language<h3><a href=https://shopify.github.io/liquid/basics/introduction/ title="The Liquid tutorial">Liquid</a></h3><p>Tags, filters, and data placeholders in Mokk Files are written in the Liquid templating language
+{% endraw %}
