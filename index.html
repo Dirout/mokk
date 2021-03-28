@@ -5,7 +5,7 @@ in a kit, or collection of keys.<h2>Data management</h2><p>A Mokk file (which wi
 utilizes text templating to access data in an object-oriented manner. Often,
 <code>.mokkf</code> files will contain ‘mustache-like’ tags:<blockquote><p><code>{{ page.year }}</code></blockquote><p>The first component is a ‘context’, which contains variables. These variables have names (keys)
 and their data (values). In this case, the templating tag will output the value of the <code>year</code>
-variable for the <code>page</code> context.<p>There are three primary contexts which comprise the Mokk standard:<ol><li><code>{{ global }}</code><li><code>{{ page }}</code><li><code>{{ collections }}</code></ol><p>Additionally exist the <code>{{ layout }}</code> and <code>{{ snippet }}</code> contexts, but these are not accessible
+variable for the <code>page</code> context.<p>There are three primary contexts which comprise the Mokk standard:<ol><li><code>{{ global }}</code><li><code>{{ page }}</code><li><code>{{ collections }}</code></ol><p>Additionally exist the <code>{{ layout }}</code> and <code>{{ include }}</code> contexts, but these are not accessible
 in most situations.<h3><code>{{ global }}</code></h3><p>This context is accessible across all Files in a Mokk, and is, as a result, called ‘the global context’.
 It is defined within the <code>_global.yml</code> file at the root of every Mokk, written in human-readable YAML 1.2.
 The only required variable within the global context is the <code>locale</code> variable, which defines how date &amp; time
@@ -19,7 +19,7 @@ accessible from the <code>{{ page.document }}</code> variable.<p>One can conside
 title: &quot;Hello, world!&quot;
 ---
 
-{{ page.document.frontmatter.title }}
+{{ page.data.title }}
 </code></pre></blockquote><p>Such a Page would be rendered as:<blockquote><p>“Hello, world!”</blockquote><h3><code>{{ collections }}</code></h3><p>Collections are for the categorization of Files, allowing the incorporation of several Files into one. The ‘collections’
 context contains collections by name, which can be indexed:<blockquote><p><code>{{ collections[&quot;posts&quot;] }}</code></blockquote><p>A File can be assigned to a collection by specifying a <code>collection</code> key in its frontmatter:<blockquote><pre><code>---
 collection: posts
@@ -31,15 +31,26 @@ title: Homepage for Blog
 permalink: index.html
 ---
 {% for post in collections[&quot;posts&quot;] %}
-# {{ post.document.frontmatter.title }}
-by {{ post.document.frontmatter.author }} \
-{{ post.document.content }}
+# {{ post.data.title }}
+by {{ post.data.author }} \
+{{ post.content }}
 ## END OF ARTICLE \
 {% endfor %}
-</code></pre></blockquote><h2>Layouts</h2><p>To be written.<h2>Snippets</h2><p>Snippets allow a file’s contents to be embedded within a File. Snippets reside in the <code>snippet</code> folder within
-a Mokk, and are called using a unique syntax.<blockquote><p><code>{! s​nippet SnippetFileToEmbed.filetype !}</code></blockquote><p>Optionally, arguments may be passed to a snippet, accessible within the snippet’s source as the <code>{{ snippet }}</code>
-context.<p><code>snippets/example_snippet.html</code>:<blockquote><p><code>&lt;p&gt;{{ s​nippet.myargument }}&lt;/p&gt;</code></blockquote><p><code>example_of_page_with_snippet.mokkf</code>:<blockquote><pre><code>…  
-{! s​nippet example_snippet.html myargument=&quot;Bonjour, le monde!&quot; !}
+</code></pre></blockquote><h2>Layouts</h2><p>Layouts allow a Page to be embedded within a template. Layouts reside in the <code>layouts</code> folder within
+a Mokk, and are defined in a page’s frontmatter. A layout’s data is contained within the <code>{{ layout }}</code>
+context. Layouts may be within other layouts.<p><code>layouts/example_layout.mokkf</code>:<blockquote><pre><code>---
+title: Example Layout
+---
+</code></pre><h1>{{ page.data.title }}</h1><p>{{ page.content }}</blockquote><p><code>example_of_page_with_layout.mokkf</code>:<blockquote><pre><code>---
+title: Example Page
+---
+Layout title: {{ layout.data.title }}
+</code></pre></blockquote><p>Result:<blockquote><pre><code>&lt;h1&gt;Example Page&lt;/h1&gt;
+Layout title: Example Layout
+</code></pre></blockquote><h2>Snippets</h2><p>Snippets allow a file’s contents to be embedded within a File. Snippets reside in the <code>snippet</code> folder within
+a Mokk, and are called as a Liquid tag.<blockquote><p><code>{% include SnippetFileToEmbed.filetype %}</code></blockquote><p>Optionally, arguments may be passed to a snippet, accessible within the snippet’s source as the <code>{{ include }}</code>
+context.<p><code>snippets/example_snippet.html</code>:<blockquote><p><code>&lt;p&gt;{{ include.myargument }}&lt;/p&gt;</code></blockquote><p><code>example_of_page_with_snippet.mokkf</code>:<blockquote><pre><code>…  
+{% include example_snippet.html myargument=&quot;Bonjour, le monde!&quot; %}
 …
 </code></pre></blockquote><p>Result:<blockquote><pre><code>…
 &lt;p&gt;Bonjour, le monde!&lt;/p&gt;
