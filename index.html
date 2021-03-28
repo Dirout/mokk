@@ -41,7 +41,9 @@ a Mokk, and are defined in a page’s frontmatter. A layout’s data is containe
 context. Layouts may be within other layouts.<p><code>layouts/example_layout.mokkf</code>:<blockquote><pre><code>---
 title: Example Layout
 ---
-</code></pre><h1>{{ page.data.title }}</h1><p>{{ page.content }}</blockquote><p><code>example_of_page_with_layout.mokkf</code>:<blockquote><pre><code>---
+# {{ page.data.title }}
+{{ page.content }}
+</code></pre></blockquote><p><code>example_of_page_with_layout.mokkf</code>:<blockquote><pre><code>---
 title: Example Page
 ---
 Layout title: {{ layout.data.title }}
