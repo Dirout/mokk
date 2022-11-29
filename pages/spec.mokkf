@@ -36,7 +36,7 @@ This context is accessible across all Files in a Mokk, and is, as a result, call
 It is defined within the `_global.yml` file at the root of every Mokk, written in human-readable YAML 1.2.
 The only required variable within the global context is the `locale` variable, which defines how date & time
 information is rendered. The locales are derived from the
-[GNU C Library's list of locales](https://sources.debian.org/src/glibc/2.31-4/localedata/locales/).
+[GNU C Library's list of locales](https://sources.debian.org/src/glibc/latest/localedata/locales/).
 > `locale: "fr_FR"` would define Metropolitan French as the Mokk's locale
 
 ### `{{ page }}`
